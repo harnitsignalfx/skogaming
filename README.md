@@ -1,28 +1,28 @@
 # skogaming
 
 
-Create Docker network
+#Create Docker network
 
 ```
 docker create network my-net
 ```
 
 
-Redis
+#Redis
 
 ```
 docker run --name redis-instance -itd -p 6379:6379 --network my-net -u 1007 -v /tmp:/data redis
 ```
 
 
-Leaderboard (Flask + uwsgi with 4 processes each with 2 threads )
+#Leaderboard (Flask + uwsgi with 4 processes each with 2 threads )
 
 ```
 docker run -itd --name leaderboard --network my-net -p 6001:6001 harnit/uwsgi-leaderboard:v3
 ```
 
 
-Otel Collector
+#Otel Collector
 
 ```
 docker run -d --rm -e SPLUNK_ACCESS_TOKEN=<insert-token> -e SPLUNK_MEMORY_TOTAL_MIB=1024 \
@@ -31,7 +31,7 @@ docker run -d --rm -e SPLUNK_ACCESS_TOKEN=<insert-token> -e SPLUNK_MEMORY_TOTAL_
 ```
 
 
-Leaderboard fetcher (and async reporter)
+#Leaderboard fetcher (and async reporter)
 
 ```
 docker run -itd --name asyncfetcher -pull=always --network my-net harnit/asyncleaderfetcher:v1
@@ -39,10 +39,10 @@ docker run -itd --name asyncfetcher -pull=always --network my-net harnit/asyncle
 
 
 
-Log onto sko-gaming-instance (gcloud)
+#Log onto sko-gaming-instance (gcloud)
 
 
-nginx conf files ->
+#nginx conf files ->
 
 ```
 sudo vim /etc/nginx/nginx.conf
@@ -54,14 +54,14 @@ and
 sudo vim /etc/nginx/sites-available/default
 ```
 
-Location of web pages ->
+#Location of web pages ->
 
 ```
 /var/www/gaming
 ```
 
 
-Restarting nginx
+#Restarting nginx
 
 ```
 sudo systemctl restart nginx
@@ -69,3 +69,16 @@ sudo systemctl restart nginx
 
 
 Certbot is installed on the server (SSL setup)
+
+
+
+
+#Data flow
+
+```
+External Client (JS client via Web Browser) -> Nginx -> Flask server -> Redis
+```
+
+```
+Async Fetcher -> Flask server -> Redis
+```
