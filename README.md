@@ -77,8 +77,11 @@ Certbot is installed on the server (SSL setup)
 
 ```
 External Client (JS client via Web Browser) -> Nginx -> Flask server -> Redis
+                                                                     -> Otel collector -> Splunk Infra Mon
 ```
 
 ```
 Async Fetcher -> Flask server -> Redis
+
+              -> Otel-collector -> Splunk Infra Mon 
 ```
